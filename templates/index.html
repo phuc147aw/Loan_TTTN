@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>AkatsukiBANK</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="static/img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Roboto:wght@500;700;900&display=swap" rel="stylesheet"> 
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="static/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="static/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="static/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="static/css/style.css" rel="stylesheet">
+    <script>
+        function resetForm() {
+            const form = document.getElementById("prediction-form");
+            form.reset();
+            // Xóa giá trị điền trước từ các trường sau khi submit
+            const inputs = form.querySelectorAll("input[type='text'], input[type='number']");
+            inputs.forEach(input => input.value = "");
+        }
+    </script>
+    <style>
+        #about_flex {
+        font-family: Arial, sans-serif;
+        margin: 0 auto;
+        display: flex;
+        width: 80%;
+    }
+    
+    .form-container {
+        width: 65%;
+        padding-right: 10px;
+    }
+    
+    .history-container {
+        width: 35%;
+        border-left: 2px solid #ddd;
+        padding-left: 15px;
+        background-color: #f7f7f7;
+        height: 500px;
+        overflow-y: scroll;
+        scrollbar-width: thin;
+        position: relative;
+        margin-top: 40px;
+    }
+    
+    .history-container h3 {
+        position: sticky;
+        top: 0;
+        background-color: #f7f7f7;
+        padding: 10px 0;
+        margin-top: 0;
+        z-index: 10;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    
+    input[type="text"],
+    input[type="number"] {
+        width: 85%;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1.5px solid black;
+    }
+    
+    .button {
+        background-color: #007BFF;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .button:hover {
+        background-color: #0056b3;
+    }
+    
+    .reset-button {
+        background-color: #dc3545;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .reset-button:hover {
+        background-color: #c82333;
+    }
+    
+    .history-item {
+        margin-bottom: 15px;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+    
+    .history-item h4 {
+        margin: 0 0 5px;
+        font-size: 16px;
+    }
+    
+    .history-item p {
+        margin: 0;
+        font-size: 14px;
+    }
+    
+    .prediction-result {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #e9ecef;
+        border-radius: 5px;
+    }
+    
+    h2 {
+        text-align: center;
+        font-size: 24px;
+        color: #003399;
+        text-shadow: -2px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+    .details-table { /* Style the table */
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+    .details-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+</style>
+</head>
+
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Topbar Start -->
+    <div class="container-fluid bg-light p-0 wow fadeIn" data-wow-delay="0.1s">
+        <div class="row gx-0 d-none d-lg-flex">
+            <div class="col-lg-7 px-5 text-start">
+                <div class="h-100 d-inline-flex align-items-center py-3 me-4">
+                    <small class="fa fa-map-marker-alt text-primary me-2"></small>
+                    <small>123 Street, New York, USA</small>
+                </div>
+                <div class="h-100 d-inline-flex align-items-center py-3">
+                    <small class="far fa-clock text-primary me-2"></small>
+                    <small>Mon - Fri : 09.00 AM - 09.00 PM</small>
+                </div>
+            </div>
+            <div class="col-lg-5 px-5 text-end">
+                <div class="h-100 d-inline-flex align-items-center py-3 me-4">
+                    <small class="fa fa-phone-alt text-primary me-2"></small>
+                    <small>+012 345 6789</small>
+                </div>
+                <div class="h-100 d-inline-flex align-items-center">
+                    <a class="btn btn-sm-square rounded-circle bg-white text-primary me-1" href=""><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-sm-square rounded-circle bg-white text-primary me-1" href=""><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-sm-square rounded-circle bg-white text-primary me-1" href=""><i class="fab fa-linkedin-in"></i></a>
+                    <a class="btn btn-sm-square rounded-circle bg-white text-primary me-0" href=""><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0 wow fadeIn" data-wow-delay="0.1s">
+        <a href="/" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+            <h1 class="m-0 text-primary"><i class="far fa-hospital me-3"></i><span class="akatsuki">Akatsuki</span><span class="bank">BANK</span></h1>
+        </a>
+        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto p-4 p-lg-0">
+                <a href="/" class="nav-item nav-link" onclick="showSection('home')">Trang chủ</a> 
+                <a href="/hme" class="nav-item nav-link" onclick="showSection('about')">Khoản vay</a>
+                <a href="/all_transactions" class="nav-item nav-link">Tất cả giao dịch</a>
+          
+                
+                
+            </div>
+            <a href="" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Appointment<i class="fa fa-arrow-right ms-3"></i></a>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+
+
+   <!-- Hessssssssssssssssssssssssssssádddddddddddddddddddddddddddds -->
+  
+       <!-- Page Header Start -->
+        <div id="about_flex">
+            <div class="form-container">
+                <h2>Dự đoán khả năng trả nợ</h2>
+                <form id="prediction-form" action="/predict" method="post">
+                    <table style="  font-size: large; color: #3e4243; ">
+                        <tr>
+                            <td>Họ và tên:</td>
+                            <td>{{ request.form.get('full_name', '') }}</td>
+                        </tr>
+                        <tr>
+                            <td>Số điện thoại:</td>
+                            <td>{{ request.form.get('phone_number', '') }}</td>
+                        </tr>
+                        <tr>
+                            <td>CCCD:</td>
+                            <td>{{ cccd }}</td> <!-- Displaying the value of cccd -->
+                        </tr>
+                        
+                        
+                    </table>
+                    
+                    <input type="hidden" name="cccd" value="{{ cccd }}">  <!-- Hidden field for CCCD -->
+                    <input type="hidden" name="full_name" value="{{ request.form.get('full_name', '') }}">
+                    <input type="hidden" name="phone_number" value="{{ request.form.get('phone_number', '') }}">
+    
+                    <!-- Các trường đã có trong form -->
+                    <div class="form-group">
+                        <label for="credit_policy">Chính sách tín dụng (1: Được chấp nhận, 0: Không được chấp nhận):</label>
+                        <input type="number" id="credit_policy" name="credit_policy" required value="{{ request.form.get('credit_policy', '') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="int_rate">Lãi suất (%):</label>
+                        <input type="text" id="int_rate" name="int_rate" required value="{{ request.form.get('int_rate', '') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="installment">Khoản trả góp hàng tháng:</label>
+                        <input type="text" id="installment" name="installment" required value="{{ request.form.get('installment', '') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="annual_inc">Thu nhập hàng năm (USD):</label>
+                        <input type="text" id="annual_inc" name="annual_inc" required value="{{ request.form.get('annual_inc', '') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="dti">Tỷ lệ nợ trên thu nhập (DTI):</label>
+                        <input type="text" id="dti" name="dti" required value="{{ request.form.get('dti', '') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="fico">Điểm FICO:</label>
+                        <input type="text" id="fico" name="fico" required value="{{ request.form.get('fico', '') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="days_with_cr_line">Số ngày có hạn mức tín dụng:</label>
+                        <input type="text" id="days_with_cr_line" name="days_with_cr_line" required value="{{ request.form.get('days_with_cr_line', '') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="revol_bal">Số dư tín dụng quay vòng:</label>
+                        <input type="text" id="revol_bal" name="revol_bal" required value="{{ request.form.get('revol_bal', '') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="revol_util">Tỷ lệ sử dụng tín dụng quay vòng (%):</label>
+                        <input type="text" id="revol_util" name="revol_util" required value="{{ request.form.get('revol_util', '') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="inq_last_6mths">Số lần tra cứu tín dụng trong 6 tháng qua:</label>
+                        <input type="number" id="inq_last_6mths" name="inq_last_6mths" required value="{{ request.form.get('inq_last_6mths', '') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="delinq_2yrs">Số lần trễ hạn trong 2 năm qua:</label>
+                        <input type="number" id="delinq_2yrs" name="delinq_2yrs" required value="{{ request.form.get('delinq_2yrs', '') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="pub_rec">Số lần phá sản công khai:</label>
+                        <input type="number" id="pub_rec" name="pub_rec" required value="{{ request.form.get('pub_rec', '') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="purpose">Mục đích vay:</label>
+                        <input type="text" id="purpose" name="purpose" required placeholder="'debt_consolidation', 'credit_card', 'home_improvement'" value="{{ request.form.get('purpose', '') }}">
+                    </div>
+    
+                    <div class="form-group">
+                        <button type="submit" class="button">Dự đoán</button>
+                        <button type="button" class="reset-button" onclick="resetForm()">Reset</button>
+                    </div>
+                </form>
+    
+                {% if result %}
+                    <div class="prediction-result">
+                        <h3>Kết quả dự đoán:</h3>
+                        <p>{{ result }}</p>
+                        <p>Xác suất trả nợ đầy đủ: {{ prob_full_payment }}</p>
+                        <p>Xác suất không trả nợ đầy đủ: {{ prob_non_payment }}</p>
+                    </div>
+                {% endif %}
+    
+                {% if error %}
+                    <p style="color: red;">{{ error }}</p>
+                {% endif %}
+            </div>
+    
+            <div class="history-container">
+                <h3>Lịch sử dự đoán</h3>
+                {% if history %}
+                    {% for item in reversed(history) %}
+                        <div class="history-item">
+                            <h4>{{ item['full_name'] }} - {{ item['phone_number'] }}</h4>
+                            <p><strong>CCCD:</strong> {{ item['cccd'] }}</p>
+                            <p><strong>Kết quả:</strong> {{ item['result'] }}</p>
+                            <p><strong>Xác suất trả nợ đầy đủ:</strong> {{ item['prob_full_payment'] }}</p>
+                            <p><strong>Xác suất không trả nợ đầy đủ:</strong> {{ item['prob_non_payment'] }}</p>
+                            <button onclick="toggleDetails(this)">Xem chi tiết</button>
+                            <div class="details" style="display: none;">
+                                <table class="details-table">  <!-- Added a table for structured display -->
+                                    <tr><td>Xác suất không trả nợ đầy đủ:</td><td>{{ item.prob_non_payment }}</td></tr>
+                                    <tr><td>Chính sách tín dụng:</td><td>{{ item.credit_policy }}</td></tr>
+                                    <tr><td>Lãi suất:</td><td>{{ item.int_rate }}</td></tr>
+                                    <tr><td>Khoản trả góp hàng tháng:</td><td>{{ item.installment }}</td></tr>
+                                    <tr><td>Thu nhập hàng năm:</td><td>{{ item.log_annual_inc }}</td></tr>
+                                    <tr><td>DTI:</td><td>{{ item.dti }}</td></tr>
+                                    <tr><td>FICO:</td><td>{{ item.fico }}</td></tr>
+                                    <tr><td>Số ngày có hạn mức tín dụng:</td><td>{{ item.days_with_cr_line }}</td></tr>
+                                    <tr><td>Số dư tín dụng quay vòng:</td><td>{{ item.revol_bal }}</td></tr>
+                                    <tr><td>Tỷ lệ sử dụng tín dụng quay vòng:</td><td>{{ item.revol_util }}</td></tr>
+                                    <tr><td>Số lần tra cứu tín dụng trong 6 tháng qua:</td><td>{{ item.inq_last_6mths }}</td></tr>
+                                    <tr><td>Số lần trễ hạn trong 2 năm qua:</td><td>{{ item.delinq_2yrs }}</td></tr>
+                                    <tr><td>Số lần phá sản công khai:</td><td>{{ item.pub_rec }}</td></tr>
+                                    <tr><td>Mục đích vay:</td><td>{{ item.purpose }}</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>Chưa có dự đoán nào.</p>
+                {% endif %}
+            </div>
+        </div>
+    <!-- Page Header End -->
+    </div>
+
+    <script>
+        function toggleDetails(button) {
+            var detailsDiv = button.nextElementSibling;
+            if (detailsDiv.style.display === "none") {
+                detailsDiv.style.display = "block";
+                button.textContent = "Ẩn chi tiết"; // Change button text
+            } else {
+                detailsDiv.style.display = "none";
+                button.textContent = "Xem chi tiết"; // Change button text back
+            }
+        }
+        </script>
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-light footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="text-light mb-4">Address</h5>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                    <div class="d-flex pt-2">
+                        <a class="btn btn-outline-light btn-social rounded-circle" href=""><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-outline-light btn-social rounded-circle" href=""><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-outline-light btn-social rounded-circle" href=""><i class="fab fa-youtube"></i></a>
+                        <a class="btn btn-outline-light btn-social rounded-circle" href=""><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="text-light mb-4">Services</h5>
+                    <a class="btn btn-link" href="">Cardiology</a>
+                    <a class="btn btn-link" href="">Pulmonary</a>
+                    <a class="btn btn-link" href="">Neurology</a>
+                    <a class="btn btn-link" href="">Orthopedics</a>
+                    <a class="btn btn-link" href="">Laboratory</a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="text-light mb-4">Quick Links</h5>
+                    <a class="btn btn-link" href="">About Us</a>
+                    <a class="btn btn-link" href="">Contact Us</a>
+                    <a class="btn btn-link" href="">Our Services</a>
+                    <a class="btn btn-link" href="">Terms & Condition</a>
+                    <a class="btn btn-link" href="">Support</a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="text-light mb-4">Newsletter</h5>
+                    <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+                    <div class="position-relative mx-auto" style="max-width: 400px;">
+                        <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved.
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                        Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+   <!---<script>
+        function showSection(sectionId) {
+          // Ẩn cả hai phần
+          document.getElementById('home-section').style.display = 'none';
+          document.getElementById('about-section').style.display = 'none';
+    
+          // Hiển thị phần được chọn
+          document.getElementById(sectionId + '-section').style.display = 'block';
+    
+          // Lưu trạng thái vào sessionStorage
+          sessionStorage.setItem('activeSection', sectionId);
+        }
+    
+        // Kiểm tra trạng thái từ sessionStorage khi trang tải
+        window.onload = function() {
+          var activeSection = sessionStorage.getItem('activeSection');
+          if (activeSection) {
+            showSection(activeSection);
+          } else {
+            // Mặc định hiển thị "Home" nếu chưa có trạng thái nào được lưu
+            showSection('home');
+          }
+        };
+    </script>-->
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="static/lib/wow/wow.min.js"></script>
+    <script src="static/lib/easing/easing.min.js"></script>
+    <script src="static/lib/waypoints/waypoints.min.js"></script>
+    <script src="static/lib/counterup/counterup.min.js"></script>
+    <script src="static/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="static/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="static/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="static/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="static/js/main.js"></script>
+</body>
+
+</html>
